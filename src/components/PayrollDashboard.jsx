@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Logout from './Logout';
 
-const AdminDashboard = () => {
+const PayrollDashboard = () => {
     const [activeDashboard, setActiveDashboard] = useState('dashboard');
 
     return (
@@ -8,7 +9,7 @@ const AdminDashboard = () => {
             {/* Sidebar */}
             <div className="min-h-screen w-64 bg-gray-900 text-white">
                 <div className="p-6 text-lg font-bold flex items-center">
-                    <span className="mr-2">📊</span> Admin
+                    <span className="mr-2">📊</span> Payroll Manager
                 </div>
                 <ul>
                     <li
@@ -47,6 +48,7 @@ const AdminDashboard = () => {
 
                     </li>
                 </ul>
+                <Logout />
             </div>
 
             {/* Main Content */}
@@ -95,4 +97,4 @@ const AdminDashboard = () => {
     );
 };
 
-export default AdminDashboard;
+export default PayrollDashboard;
