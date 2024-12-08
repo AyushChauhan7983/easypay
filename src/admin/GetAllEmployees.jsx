@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Spinner from "../components/Spinner";
+import AddEmployee from "./AddEmpDetails";
+import { Modal, Button } from "antd";
 
 const GetAllEmployees = () => {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
+        fetchEmployees();
+    }, []);
+
+    const fetchEmployees = () => {
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -23,7 +30,7 @@ const GetAllEmployees = () => {
                 },
             })
             .then((response) => {
-                setEmployees(response.data); // Set employee data in state
+                setEmployees(response.data);
                 setLoading(false);
             })
             .catch((err) => {
@@ -33,18 +40,46 @@ const GetAllEmployees = () => {
                     localStorage.removeItem("role");
                     sessionStorage.removeItem("flag");
                 } else {
-                    setError("Error fetching employee data");
+                    setError("Error fetching employee data.");
                 }
                 setLoading(false);
             });
-    }, []);
+    };
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleEmployeeAdded = () => {
+        fetchEmployees(); // Refresh the employee list after adding a new employee
+        handleModalClose();
+    };
 
     if (loading) return <Spinner />;
     if (error) return <div className="text-center p-4 text-red-500">{error}</div>;
 
     return (
         <div className="overflow-x-auto p-4">
-            <h2 className="text-2xl font-bold mb-5">Employees Data</h2>
+            <div style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+            }}>
+                <h2 className="text-2xl font-bold mb-5">Employees Data</h2>
+
+                <Button
+                    type="primary"
+                    onClick={handleModalOpen}
+                    className="mb-4 bg-blue-500 hover:bg-blue-600"
+                >
+                    Add Employee
+                </Button>
+            </div>
+
             <table className="min-w-full table-auto border-collapse">
                 <thead>
                     <tr className="bg-gray-200">
@@ -56,7 +91,6 @@ const GetAllEmployees = () => {
                         <th className="px-4 py-2 text-left border-b">Hire Date</th>
                         <th className="px-4 py-2 text-left border-b">Salary</th>
                         <th className="px-4 py-2 text-left border-b">Department ID</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -72,11 +106,20 @@ const GetAllEmployees = () => {
                             </td>
                             <td className="px-4 py-2 border-b">{employee.salary}</td>
                             <td className="px-4 py-2 border-b">{employee.departmentId}</td>
-
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+            {/* Modal for adding employees */}
+            <Modal
+                title="Add Employee"
+                open={isModalOpen}
+                onCancel={handleModalClose}
+                footer={null}
+            >
+                <AddEmployee onEmployeeAdded={handleEmployeeAdded} />
+            </Modal>
         </div>
     );
 };

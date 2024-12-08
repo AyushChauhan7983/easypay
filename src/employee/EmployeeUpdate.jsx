@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { message } from 'antd';
 
 const EmployeeUpdate = () => {
+    const [employeeId, setEmployeeId] = useState("");
     const [profileData, setProfileData] = useState(null);
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({
@@ -9,17 +11,16 @@ const EmployeeUpdate = () => {
         lastName: "",
         email: "",
         phoneNumber: "",
-
+        salary: "",
     });
 
-    // Fetch employee profile when the component mounts
     useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            setError("Please log in to view your profile.");
+        if (!employeeId) {
+            setProfileData(null);
             return;
         }
+
+        const token = localStorage.getItem("token");
 
         axios
             .get("http://localhost:8080/api/emp/profile", {
@@ -42,7 +43,7 @@ const EmployeeUpdate = () => {
                 setError("Unable to fetch profile. Please try again.");
                 setProfileData(null);
             });
-    }, []); // Runs only once when the component mounts
+    }, [employeeId]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -53,15 +54,15 @@ const EmployeeUpdate = () => {
     };
 
     const updateEmployeeProfile = () => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            setError("Please log in to update your profile.");
+        if (!employeeId) {
+            setError("Employee ID is required to update.");
             return;
         }
 
+        const token = localStorage.getItem("token");
+
         axios
-            .put("http://localhost:8080/api/emp/update_info", formData, {
+            .put(`http://localhost:8080/api/emp/update_info/${employeeId}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -69,7 +70,7 @@ const EmployeeUpdate = () => {
             .then((res) => {
                 setProfileData(res.data);
                 setError("");
-                alert("Profile updated successfully!");
+                message.success('Profile updated successfully');
             })
             .catch((err) => {
                 setError("Unable to update profile. Please try again.");
@@ -79,12 +80,22 @@ const EmployeeUpdate = () => {
     return (
         <div className="min-h-screen bg-gray-100 py-8 flex flex-col items-center">
             <div className="w-full max-w-3xl bg-white p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Update Your Profile</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Update Employee Profile</h2>
 
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-                {/* Only show the form if profile data is fetched */}
-                {profileData ? (
+                <div className="mb-6">
+                    <label className="block text-gray-600">Employee ID</label>
+                    <input
+                        type="text"
+                        placeholder="Enter Employee ID"
+                        value={employeeId}
+                        onChange={(e) => setEmployeeId(e.target.value)}
+                        className="p-2 mt-3 border border-gray-300 rounded w-full"
+                    />
+                </div>
+
+                {profileData && (
                     <div>
                         <div className="space-y-4 mb-6">
                             <div>
@@ -130,7 +141,6 @@ const EmployeeUpdate = () => {
                                     className="p-2 border border-gray-300 rounded w-full"
                                 />
                             </div>
-
                         </div>
 
                         <button
@@ -140,8 +150,6 @@ const EmployeeUpdate = () => {
                             Update Profile
                         </button>
                     </div>
-                ) : (
-                    <div className="text-center text-gray-500">Loading your profile...</div>
                 )}
             </div>
         </div>

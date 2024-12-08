@@ -67,6 +67,7 @@ const Dashboard = () => {
                     <p className="text-2xl font-bold">{totalPayrollManagers}</p>
                 </div>
             </div>
+            <GetAllUserData />
         </>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { message } from "antd";
 
 const UpdateUser = () => {
     const [username, setUsername] = useState("");
@@ -39,6 +40,7 @@ const UpdateUser = () => {
                 }
             );
             setSuccessMessage(response.data);
+            message.success("Username updated successfully");
             setErrorMessage("");
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -65,6 +67,7 @@ const UpdateUser = () => {
                 }
             );
             setSuccessMessage(response.data);
+            message.success("Role updated successfully");
             setErrorMessage("");
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -94,6 +97,7 @@ const UpdateUser = () => {
                 }
             );
             setSuccessMessage(response.data);
+            message.success("Password updated successfully");
             setErrorMessage("");
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -151,13 +155,16 @@ const UpdateUser = () => {
                 <div>
                     <h3 className="text-xl font-semibold">Update Role</h3>
                     <div className="mt-2">
-                        <input
-                            type="text"
-                            placeholder="Enter role"
+                        <select
                             value={role}
                             onChange={(e) => setRole(e.target.value)}
                             className="p-2 border border-gray-300 rounded w-full"
-                        />
+                        >
+                            <option value="" disabled>Select a role</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="EMPLOYEE">EMPLOYEE</option>
+                            <option value="PAYROLL_MANAGER">PAYROLL_MANAGER</option>
+                        </select>
                     </div>
                     <button
                         onClick={handleEditRole}
@@ -166,6 +173,7 @@ const UpdateUser = () => {
                         Update Role
                     </button>
                 </div>
+
 
                 {/* Password Update Form */}
                 <div>

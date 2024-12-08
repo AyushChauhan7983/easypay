@@ -10,6 +10,16 @@ const LeaveRequest = () => {
     const [error, setError] = useState("");
     const [confirmationMessage, setConfirmationMessage] = useState("");
 
+    // List of available leave types
+    const leaveTypes = [
+        "Sick Leave",
+        "Casual Leave",
+        "Earned Leave",
+        "Maternity Leave",
+        "Paternity Leave",
+        "Unpaid Leave",
+    ];
+
     const submitLeaveRequest = () => {
         if (!employeeId || !leaveType || !startDate || !endDate || !reason) {
             setError("All fields are required.");
@@ -40,7 +50,6 @@ const LeaveRequest = () => {
                 setStartDate("");
                 setEndDate("");
                 setReason("");
-
             })
             .catch((err) => {
                 setError("Failed to submit leave request. Please try again.");
@@ -50,9 +59,7 @@ const LeaveRequest = () => {
 
     return (
         <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-            <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
-                Leave Request Form
-            </h1>
+            <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Leave Request Form</h1>
             <div className="space-y-4">
                 <input
                     type="text"
@@ -61,13 +68,27 @@ const LeaveRequest = () => {
                     onChange={(e) => setEmployeeId(e.target.value)}
                     className="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-300"
                 />
-                <input
-                    type="text"
-                    placeholder="Leave Type (e.g., Sick Leave)"
-                    value={leaveType}
-                    onChange={(e) => setLeaveType(e.target.value)}
-                    className="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-300"
-                />
+
+                {/* Leave Type Dropdown */}
+                <div>
+                    <label htmlFor="leaveType" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Leave Type
+                    </label>
+                    <select
+                        id="leaveType"
+                        value={leaveType}
+                        onChange={(e) => setLeaveType(e.target.value)}
+                        className="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-300"
+                    >
+                        <option value="" disabled>Select a leave type</option>
+                        {leaveTypes.map((type, index) => (
+                            <option key={index} value={type}>
+                                {type}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="flex gap-4">
                     <input
                         type="date"

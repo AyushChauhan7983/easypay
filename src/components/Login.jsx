@@ -6,12 +6,14 @@ import { useState } from "react";
 import axios from "axios";
 import { message } from 'antd';
 import Spinner from "./Spinner";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
 
     let [name, setName] = useState();
     let [password, setPassword] = useState();
     let [loading, setLoading] = useState(false);
+    let [showPassword, setShowPassword] = useState(false);
 
     let nav = useNavigate();
 
@@ -31,15 +33,12 @@ const Login = () => {
                 message.success("Logged in successfully");
 
                 if (role === "ADMIN") {
-                    nav("/admin");
-                }
-                else if (role === "EMPLOYEE") {
-                    nav("/employee");
-                }
-                else if (role === "PAYROLL_MANAGER") {
-                    nav("/payroll");
-                }
-                else {
+                    nav("/admin", { state: { username: name } });
+                } else if (role === "EMPLOYEE") {
+                    nav("/employee", { state: { username: name } });
+                } else if (role === "PAYROLL_MANAGER") {
+                    nav("/payroll", { state: { username: name } });
+                } else {
                     nav("/login");
                 }
             })
@@ -55,10 +54,10 @@ const Login = () => {
             {/* Navbar */}
             <nav className="bg-white border-gray-200 fixed top-0 w-full bg-white shadow-md z-50">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a href="https://easypay.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                    <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src={applogo} className="h-8" alt="EasyPay Logo" />
                         <span className="self-center text-2xl font-semibold whitespace-nowrap" style={{ color: "black" }}>EasyPay</span>
-                    </a>
+                    </Link>
                     <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
                         <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
                             <li>
@@ -87,7 +86,7 @@ const Login = () => {
                 {loading ? (
                     <Spinner />
                 ) : (
-                    <div className="mt-16 flex shadow-xl bg-white rounded-2xl p-2">
+                    <div className="flex shadow-xl bg-white rounded-2xl p-2">
                         <div className="flex flex-wrap content-center justify-center rounded-l-md bg-white p-8" style={{ width: '24rem', height: '26rem' }}>
                             <div className="w-72">
                                 <h1 className="text-2xl font-bold text-center mb-5">Login to your account</h1>
@@ -98,7 +97,21 @@ const Login = () => {
                                     </div>
                                     <div className="mb-5">
                                         <label className="mb-2 block text-left text-xm font-semibold">Password</label>
-                                        <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" className="block w-full rounded-md border border-gray-300 focus:border-custom-border focus:outline-none focus:ring-1 focus:ring-custom-border py-1 px-1.5 text-gray-500" />
+                                        <div className="relative">
+                                            <input
+                                                type={showPassword ? 'text' : 'password'}
+                                                placeholder="Enter your password"
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                className="block w-full rounded-md border border-gray-300 focus:border-custom-border focus:outline-none focus:ring-1 focus:ring-custom-border py-1 px-1.5 text-gray-500"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                                            >
+                                                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <button
@@ -108,7 +121,7 @@ const Login = () => {
                                         Sign in
                                     </button>
 
-                                    <button
+                                    {/* <button
                                         type="button"
                                         className="flex flex-wrap justify-center w-full border border-gray-300 font-semibold hover:border-gray-500 px-2 py-1.5 rounded-md"
                                     >
@@ -118,12 +131,12 @@ const Login = () => {
                                             alt="Google logo"
                                         />
                                         Sign in with Google
-                                    </button>
+                                    </button> */}
                                 </form>
-                                <div className="text-center mt-2">
+                                {/* <div className="text-center mt-2">
                                     <span className="text-xs text-gray-400 font-semibold">Don't have an account?</span>
                                     <Link to="/signup" className="text-xs font-semibold" style={{ color: "#2C44D4" }}> Sign up</Link>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className="flex flex-wrap content-center justify-center rounded-r-md" style={{ width: '24rem', height: '26rem' }}>
