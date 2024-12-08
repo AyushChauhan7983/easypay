@@ -34,6 +34,13 @@ EasyPay is a comprehensive Payroll Management System designed to streamline payr
 - **About Us**: A page highlighting the purpose and features of EasyPay.
 - **Contact**: A page for users to connect with the system administrators for support or inquiries.
 
+## Technologies Used
+
+- **Frontend**: React
+- **Backend**: Spring Boot
+- **ORM**: Hibernate
+- **Database**: MySQL
+
 ---
 
 EasyPay simplifies payroll management for organizations by automating tasks, improving efficiency, and ensuring transparency across all roles.
