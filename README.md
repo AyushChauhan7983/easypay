@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# EasyPay - Payroll Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+EasyPay is a comprehensive Payroll Management System designed to streamline payroll processing and employee management. This system offers a user-friendly interface with essential features tailored to different user roles. The project includes a responsive **Landing Page**, along with **About Us** and **Contact** sections, making it accessible and engaging for all users.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### Roles and Functionalities
 
-### `npm start`
+#### Admin
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Add new users and assign roles.
+- Update user roles and salaries.
+- View detailed information for all employees.
+- Approve or reject leave requests.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Employee
 
-### `npm test`
+- View and manage personal profile details.
+- Edit personal information.
+- Apply for leave and track leave status.
+- Access payroll details and download payslips.
+- View a comprehensive list of all applied leaves.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Payroll Manager
 
-### `npm run build`
+- Calculate employee payrolls with accuracy.
+- Update payroll records when necessary.
+- Retrieve payroll data by employee ID.
+- Access and review audit logs for payroll activities.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Pages
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Landing Page**: A welcoming homepage that provides an overview of the system.
+- **About Us**: A page highlighting the purpose and features of EasyPay.
+- **Contact**: A page for users to connect with the system administrators for support or inquiries.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+EasyPay simplifies payroll management for organizations by automating tasks, improving efficiency, and ensuring transparency across all roles.
