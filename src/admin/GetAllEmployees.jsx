@@ -10,6 +10,15 @@ const GetAllEmployees = () => {
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Departments mapping
+    const departments = [
+        { id: 1, name: "HR" },
+        { id: 2, name: "Finance" },
+        { id: 3, name: "Developer" },
+        { id: 4, name: "IT" },
+        { id: 5, name: "Sales" },
+    ];
+
     useEffect(() => {
         fetchEmployees();
     }, []);
@@ -90,24 +99,30 @@ const GetAllEmployees = () => {
                         <th className="px-4 py-2 text-left border-b">Phone</th>
                         <th className="px-4 py-2 text-left border-b">Hire Date</th>
                         <th className="px-4 py-2 text-left border-b">Salary</th>
-                        <th className="px-4 py-2 text-left border-b">Department ID</th>
+                        <th className="px-4 py-2 text-left border-b">Department</th> {/* Updated column name */}
                     </tr>
                 </thead>
                 <tbody>
-                    {employees.map((employee, index) => (
-                        <tr key={index} className="hover:bg-gray-100">
-                            <td className="px-4 py-2 border-b">{employee.empId}</td>
-                            <td className="px-4 py-2 border-b">{employee.firstName}</td>
-                            <td className="px-4 py-2 border-b">{employee.lastName}</td>
-                            <td className="px-4 py-2 border-b">{employee.email}</td>
-                            <td className="px-4 py-2 border-b">{employee.phoneNumber}</td>
-                            <td className="px-4 py-2 border-b">
-                                {new Date(employee.hireDate).toLocaleDateString()}
-                            </td>
-                            <td className="px-4 py-2 border-b">{employee.salary}</td>
-                            <td className="px-4 py-2 border-b">{employee.departmentId}</td>
-                        </tr>
-                    ))}
+                    {employees.map((employee, index) => {
+                        // Find the department name based on departmentId
+                        const department = departments.find(dept => dept.id === employee.departmentId);
+                        const departmentName = department ? department.name : "Unknown"; // Default to "Unknown" if no match
+
+                        return (
+                            <tr key={index} className="hover:bg-gray-100">
+                                <td className="px-4 py-2 border-b">{employee.empId}</td>
+                                <td className="px-4 py-2 border-b">{employee.firstName}</td>
+                                <td className="px-4 py-2 border-b">{employee.lastName}</td>
+                                <td className="px-4 py-2 border-b">{employee.email}</td>
+                                <td className="px-4 py-2 border-b">{employee.phoneNumber}</td>
+                                <td className="px-4 py-2 border-b">
+                                    {new Date(employee.hireDate).toLocaleDateString()}
+                                </td>
+                                <td className="px-4 py-2 border-b">{employee.salary}</td>
+                                <td className="px-4 py-2 border-b">{departmentName}</td> {/* Show department name */}
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
 

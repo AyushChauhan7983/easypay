@@ -5,7 +5,7 @@ import LeaveRequest from '../employee/EmployeeLeave';
 import GetAllLeaves from '../employee/GetAllLeaves';
 import Logout from './Logout';
 import EmployeePayroll from '../employee/FetchPayroll';
-import HolidayCalendarModal from '../widget/Calendar'; // Import the calendar modal
+import HolidayCalendarModal from '../widget/Calendar';
 import { FaUser, FaEdit, FaLeaf, FaCalendarAlt } from 'react-icons/fa';
 import { HiCurrencyDollar } from "react-icons/hi";
 

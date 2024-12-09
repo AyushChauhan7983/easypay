@@ -9,6 +9,7 @@ import EmployeeListByDepartment from '../admin/GetByDepartment';
 import HolidayCalendarModal from '../widget/Calendar';
 import { useLocation } from 'react-router-dom';
 import { FaTachometerAlt, FaUsers, FaUserEdit, FaMoneyBillWaveAlt, FaLeaf, FaBuilding, FaUser, FaCalendarAlt } from 'react-icons/fa'; // Import professional icons
+import ChangeDepartment from '../admin/ChangeDepartment';
 
 const AdminDashboard = () => {
     const [activeDashboard, setActiveDashboard] = useState('dashboard');
@@ -67,6 +68,14 @@ const AdminDashboard = () => {
                         <FaMoneyBillWaveAlt className="mr-3 text-xl" /> Update Salary
                     </li>
 
+                    {/* ChangeDepartment */}
+                    <li
+                        onClick={() => setActiveDashboard('changedepartment')}
+                        className={`px-6 py-3 hover:bg-gray-800 cursor-pointer flex items-center transition-colors duration-200 ease-in-out ${activeDashboard === 'changedepartment' ? 'bg-gray-800' : ''}`}
+                    >
+                        <FaBuilding className="mr-3 text-xl" /> Change Department
+                    </li>
+
                     {/* Leave Management Link */}
                     <li
                         onClick={() => setActiveDashboard('leaves')}
@@ -80,7 +89,7 @@ const AdminDashboard = () => {
                         onClick={() => setActiveDashboard('getbydept')}
                         className={`px-6 py-3 hover:bg-gray-800 cursor-pointer flex items-center transition-colors duration-200 ease-in-out ${activeDashboard === 'getbydept' ? 'bg-gray-800' : ''}`}
                     >
-                        <FaBuilding className="mr-3 text-xl" /> Employees by Department
+                        <FaUsers className="mr-3 text-xl" /> Employees by Department
                     </li>
 
                     {/* Logout Button */}
@@ -96,6 +105,7 @@ const AdminDashboard = () => {
                 {activeDashboard === 'getallemployees' && <GetAllEmployees />}
                 {activeDashboard === 'updateuser' && <UpdateUser />}
                 {activeDashboard === 'updatesalary' && <UpdateEmployeeSalary />}
+                {activeDashboard === 'changedepartment' && <ChangeDepartment />}
                 {activeDashboard === 'leaves' && <LeaveManagement />}
                 {activeDashboard === 'getbydept' && <EmployeeListByDepartment />}
             </div>

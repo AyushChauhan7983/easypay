@@ -104,6 +104,7 @@ const AddEmployee = ({ onEmployeeAdded }) => {
                     <label className="block font-medium">Phone Number</label>
                     <input
                         type="text"
+                        max={10}
                         name="phoneNumber"
                         value={formData.phoneNumber}
                         onChange={handleInputChange}

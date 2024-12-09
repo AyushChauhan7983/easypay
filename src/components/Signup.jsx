@@ -32,7 +32,7 @@ const Signup = () => {
             .catch((err) => {
                 setLoading(false);
                 console.error(err);
-                message.error("Signup failed. Please try again.");
+                message.error("Use different name");
             });
     };
 
