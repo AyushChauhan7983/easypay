@@ -25,6 +25,19 @@ const UpdateUser = () => {
         return true;
     };
 
+    const validatePassword = () => {
+        if (password !== confirmPassword) {
+            setErrorMessage("Passwords do not match.");
+            return false;
+        }
+        if (!password.match(/.*\d.*/) || !password.includes("@")) {
+            setErrorMessage("Password must contain at least one number and the '@' symbol.");
+            return false;
+        }
+        setErrorMessage("");
+        return true;
+    };
+
     const handleEditUsername = async () => {
         if (!isTokenValid()) return;
 
@@ -111,20 +124,10 @@ const UpdateUser = () => {
         }
     };
 
-    const validatePassword = () => {
-        if (password !== confirmPassword) {
-            setErrorMessage("Passwords do not match.");
-            return false;
-        }
-        setErrorMessage("");
-        return true;
-    };
-
     return (
         <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-4">Update User Information</h2>
             <div className="space-y-6">
-                {/* Username Update Form */}
                 <div>
                     <h3 className="text-xl font-semibold">Update Username</h3>
                     <div className="flex gap-4 mt-2">
@@ -150,8 +153,6 @@ const UpdateUser = () => {
                         Update Username
                     </button>
                 </div>
-
-                {/* Role Update Form */}
                 <div>
                     <h3 className="text-xl font-semibold">Update Role</h3>
                     <div className="mt-2">
@@ -173,9 +174,6 @@ const UpdateUser = () => {
                         Update Role
                     </button>
                 </div>
-
-
-                {/* Password Update Form */}
                 <div>
                     <h3 className="text-xl font-semibold">Update Password</h3>
                     <div className="mt-2">
@@ -205,8 +203,6 @@ const UpdateUser = () => {
                     </button>
                 </div>
             </div>
-
-            {/* Error or Success Message */}
             {errorMessage && <div className="mt-4 text-red-500">{errorMessage}</div>}
             {successMessage && <div className="mt-4 text-green-500">{successMessage}</div>}
         </div>

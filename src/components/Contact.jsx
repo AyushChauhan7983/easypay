@@ -1,12 +1,79 @@
 import React from "react";
 import Navbar from "../widget/Navbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Contact = () => {
+
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        message: ""
+    });
+
+    const [status, setStatus] = useState({
+        submitted: false,
+        submitting: false,
+        info: { error: false, msg: null }
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
+
+        try {
+            const response = await fetch('http://localhost:8080/api/contact/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.text();
+
+            if (response.ok) {
+                setStatus({
+                    submitted: true,
+                    submitting: false,
+                    info: { error: false, msg: data }
+                });
+
+                setFormData({
+                    firstName: "",
+                    lastName: "",
+                    phone: "",
+                    email: "",
+                    message: ""
+                });
+            } else {
+                setStatus({
+                    submitted: false,
+                    submitting: false,
+                    info: { error: true, msg: data || "An error occurred. Please try again." }
+                });
+            }
+        } catch (error) {
+            setStatus({
+                submitted: false,
+                submitting: false,
+                info: { error: true, msg: "An error occurred. Please check your network connection and try again." }
+            });
+        }
+    }
 
     return (
         <>
@@ -18,6 +85,13 @@ const Contact = () => {
                         <h2 class="text-gray-800 text-5xl font-extrabold">Contact Us</h2>
                         <p class="text-sm text-gray-500 mt-4">Need assistance with your payroll management system or looking for expert help to streamline your payroll processes?</p>
                     </div>
+
+                    {/* Status Messages */}
+                    {status.info.msg && (
+                        <div className={`mt-4 text-center p-2 rounded ${status.info.error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                            {status.info.msg}
+                        </div>
+                    )}
 
                     <div class="grid lg:grid-cols-3 items-start gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-12" style={{ backgroundColor: "#ffffff" }}>
 
@@ -94,7 +168,12 @@ const Contact = () => {
                             <form>
                                 <div class="grid sm:grid-cols-2 gap-8">
                                     <div class="relative flex items-center">
-                                        <input type="text" placeholder="First Name"
+                                        <input
+                                            type="text"
+                                            placeholder="First Name"
+                                            name="firstName"
+                                            value={formData.firstName}
+                                            onChange={handleChange}
                                             class="px-2 py-3 bg-white w-full text-sm text-gray-800 border-b border-gray-300 focus:border-blue-500 outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2"
                                             viewBox="0 0 24 24">
@@ -106,7 +185,12 @@ const Contact = () => {
                                     </div>
 
                                     <div class="relative flex items-center">
-                                        <input type="text" placeholder="Last Name"
+                                        <input
+                                            type="text"
+                                            name="lastName"
+                                            placeholder="Last Name"
+                                            value={formData.lastName}
+                                            onChange={handleChange}
                                             class="px-2 py-3 bg-white w-full text-sm text-gray-800 border-b border-gray-300 focus:border-blue-500 outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2"
                                             viewBox="0 0 24 24">
@@ -118,7 +202,12 @@ const Contact = () => {
                                     </div>
 
                                     <div class="relative flex items-center">
-                                        <input type="number" placeholder="Phone No."
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            placeholder="Phone No."
+                                            value={formData.phone}
+                                            onChange={handleChange}
                                             class="px-2 py-3 bg-white text-black w-full text-sm text-gray-800 border-b border-gray-300 focus:border-blue-500 outline-none" />
                                         <svg fill="#bbb" class="w-[18px] h-[18px] absolute right-2" viewBox="0 0 64 64">
                                             <path
@@ -128,7 +217,12 @@ const Contact = () => {
                                     </div>
 
                                     <div class="relative flex items-center">
-                                        <input type="email" placeholder="Email"
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            placeholder="Email"
+                                            value={formData.email}
+                                            onChange={handleChange}
                                             class="px-2 py-3 bg-white text-black w-full text-sm text-gray-800 border-b border-gray-300 focus:border-blue-500 outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2"
                                             viewBox="0 0 682.667 682.667">
@@ -149,7 +243,11 @@ const Contact = () => {
                                     </div>
 
                                     <div class="relative flex items-center sm:col-span-2">
-                                        <textarea placeholder="Write Message"
+                                        <textarea
+                                            name="message"
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            placeholder="Write Message"
                                             class="px-2 pt-3 bg-white text-black w-full text-sm text-gray-800 border-b border-gray-300 focus:border-blue-500 outline-none"></textarea>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2"
                                             viewBox="0 0 682.667 682.667">
@@ -171,6 +269,7 @@ const Contact = () => {
                                 </div>
 
                                 <button type="button"
+                                    onClick={handleSubmit}
                                     class="mt-12 flex items-center justify-center text-sm lg:ml-0 max-lg:w-full rounded-lg px-4 py-3 tracking-wide text-white bg-blue-600 hover:bg-blue-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff' class="mr-2" viewBox="0 0 548.244 548.244">
                                         <path fill-rule="evenodd" d="M392.19 156.054 211.268 281.667 22.032 218.58C8.823 214.168-.076 201.775 0 187.852c.077-13.923 9.078-26.24 22.338-30.498L506.15 1.549c11.5-3.697 24.123-.663 32.666 7.88 8.542 8.543 11.577 21.165 7.879 32.666L390.89 525.906c-4.258 13.26-16.575 22.261-30.498 22.338-13.923.076-26.316-8.823-30.728-22.032l-63.393-190.153z" clip-rule="evenodd" data-original="#000000" />

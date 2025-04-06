@@ -1,23 +1,43 @@
 import React, { useState } from "react";
 import loginimg from "../images/loginimg.png";
-import applogo from "../images/applogo.png";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { message } from 'antd';
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
-import { FaEye, FaEyeSlash } from "react-icons/fa";  // Import icons from react-icons
-import { FaArrowLeft } from "react-icons/fa";  // Import back arrow icon
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Signup = () => {
     let [name, setName] = useState();
     let [password, setPassword] = useState();
     let [role, setRole] = useState();
     let [loading, setLoading] = useState(false);
-    let [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
+    let [showPassword, setShowPassword] = useState(false);
+    let [error, setError] = useState('');
     let nav = useNavigate();
 
+    const validatePassword = (password) => {
+        const hasAtSymbol = /@/.test(password);
+        const hasNumber = /\d/.test(password);
+
+        if (!hasAtSymbol || !hasNumber) {
+            setError("Password must contain '@' and at least one number.");
+        } else {
+            setError('');
+        }
+    };
+
+    const handleChange = (e) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+        validatePassword(newPassword);
+    };
+
     const signup = () => {
+        if (error) {
+            message.error(error);
+            return;
+        }
         setLoading(true);
         let data = { username: name, password, role };
         axios
@@ -32,7 +52,7 @@ const Signup = () => {
             .catch((err) => {
                 setLoading(false);
                 console.error(err);
-                message.error("Use different name");
+                message.error("Signup failed");
             });
     };
 
@@ -68,7 +88,7 @@ const Signup = () => {
                                             <input
                                                 type={showPassword ? 'text' : 'password'}
                                                 placeholder="Enter your password"
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                onChange={handleChange}
                                                 className="block w-full rounded-md border border-gray-300 focus:border-custom-border focus:outline-none focus:ring-1 focus:ring-custom-border py-1 px-1.5 text-gray-500"
                                             />
                                             <button
@@ -79,6 +99,9 @@ const Signup = () => {
                                                 {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
                                             </button>
                                         </div>
+                                        {error && (
+                                            <div className="mt-2 text-red-500 text-sm">{error}</div>
+                                        )}
                                     </div>
 
                                     <div className="mb-5">
